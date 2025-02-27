@@ -22,13 +22,14 @@ This is the backend server for the **Online Auction Platform**, built using **No
 
 ---
 
-## 📂 Project Structure
+## 📂 **Project Structure**  
 
 ```
 /Online-Auction-Platform-backend
 │── server.js          # Main backend file
 │── package.json       # Dependencies & scripts
 │── package-lock.json  # Version locking
+│── .env               # Environment variables (ignored in Git)
 └── README.md          # Documentation
 ```
 
