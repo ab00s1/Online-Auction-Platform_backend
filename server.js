@@ -8,7 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SECRET_KEY = "my_secret_key";
+require("dotenv").config();
+const SECRET_KEY = process.env.SECRET_KEY;
 
 mongoose.connect("mongodb://localhost:27017/AuctionPlatform");
 
