@@ -158,7 +158,7 @@ app.post("/post-item", authenticateToken, async (req, res) => {
       highestBidder,
       isClosed,
       endingTime,
-      creator: req.user.email,
+      creator: req.user.fullName,
     });
 
     await newItem.save();
