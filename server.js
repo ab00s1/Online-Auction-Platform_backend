@@ -213,6 +213,37 @@ app.put("/update-bid", async (req, res) => {
   }
 });
 
+app.put("/edit-item/:id", authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { itemName, description, currentBid, highestBidder, endingTime, isClosed } = req.body;
+
+    const item = await Item.findById(id);
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+
+    if (item.creator !== req.user.fullName) {
+      return res.status(403).json({ message: "Unauthorized to edit this item" });
+    }
+
+    item.itemName = itemName;
+    item.description = description;
+    item.currentBid = currentBid;
+    item.highestBidder = highestBidder;
+    item.endingTime = endingTime;
+    item.isClosed = isClosed;
+
+    // Save updated item
+    await item.save();
+
+    res.json({ message: "Item updated successfully", item });
+  } catch (err) {
+    console.error("Error updating item:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 app.delete("/delete-item/:id", authenticateToken, async (req, res) => {
   try {
@@ -223,7 +254,7 @@ app.delete("/delete-item/:id", authenticateToken, async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
 
-    if (item.creator !== req.user.email) {
+    if (item.creator !== req.user.fullName) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
