@@ -11,7 +11,11 @@ app.use(express.json());
 require("dotenv").config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-mongoose.connect("mongodb://localhost:27017/AuctionPlatform");
+const mongoURI = process.env.MONGO_URI;
+mongoose.connect(mongoURI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+
 
 const itemSchema = new mongoose.Schema(
   {
@@ -280,4 +284,10 @@ app.put("/edit-item/:id", async (req, res) => {
   }
 });
 
-app.listen(5001);
+
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
